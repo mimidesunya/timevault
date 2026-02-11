@@ -1,29 +1,16 @@
 import * as yup from "yup"
-import {HttpChainClient, roundAt, timelockDecrypt, timelockEncrypt} from "tlock-js"
-import {textEncryptionSchema} from "../schema/text-encryption-schema"
-import {Network} from "../App"
-import {fastnet, quicknet, testnetQuicknet, testnetUnchained} from "./client-utils"
+import { HttpChainClient, roundAt, timelockDecrypt, timelockEncrypt } from "tlock-js"
+import { textEncryptionSchema } from "../schema/text-encryption-schema"
+import { Network } from "../App"
+import { quicknet } from "./client-utils"
 
 export type CompletedWebForm = yup.InferType<typeof textEncryptionSchema>
 
 export async function encryptedOrDecryptedFormData(network: Network, form: unknown): Promise<CompletedWebForm> {
     const partialWebForm = await textEncryptionSchema.validate(form)
     let client: HttpChainClient
-    switch (network) {
-        case "quicknet":
-            client = quicknet()
-            break
-        case "fastnet":
-            client = fastnet()
-            break
-        case "quicknet-t":
-            client = testnetQuicknet()
-            break
-        case "testnet-unchained-3s":
-            client = testnetUnchained()
-            break
-        default: throw Error("unknown network")
-    }
+    // Always use quicknet regardless of the network parameter
+    client = quicknet()
 
     if (partialWebForm.plaintext) {
         return encrypt(client, partialWebForm.plaintext, partialWebForm.decryptionTime)

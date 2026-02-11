@@ -1,12 +1,12 @@
-import {Fragment, h} from "preact"
-import React, {useCallback, useEffect, useState} from "preact/compat"
-import {TextArea} from "../components/TextArea"
-import {DecryptionContent, decryptMulti} from "../actions/decrypt-multi"
-import {localisedDecryptionMessageOrDefault} from "../actions/errors"
-import {Button} from "../components/Button"
-import {TextInput} from "../components/TextInput"
-import {downloadFile} from "../actions/file-utils"
-import {Network} from "../App"
+import { Fragment, h } from "preact"
+import React, { useCallback, useEffect, useState } from "preact/compat"
+import { TextArea } from "../components/TextArea"
+import { DecryptionContent, decryptMulti } from "../actions/decrypt-multi"
+import { localisedDecryptionMessageOrDefault } from "../actions/errors"
+import { Button } from "../components/Button"
+import { TextInput } from "../components/TextInput"
+import { downloadFile } from "../actions/file-utils"
+import { Network } from "../App"
 
 type MultiDecryptProps = {
     network: Network
@@ -59,7 +59,7 @@ export const MultiDecrypt = (props: MultiDecryptProps) => {
                 <div className="col-12 col-lg-6 px-3">
                     <div className="row mb-6">
                         <TextArea
-                            label={"Ciphertext"}
+                            label={"暗号文 (貼り付けてください)"}
                             value={ciphertext}
                             onChange={onFormChanged}
                         />
@@ -102,7 +102,7 @@ const DecryptedContentView = (props: DecryptedContentViewProps) => {
     if (!content) {
         return (
             <div className={"row text-center"}>
-                <p><br/>Your plaintext will load here once you enter a ciphertext...</p>
+                <p><br />暗号文を入力すると復号結果がここに表示されます...</p>
             </div>
         )
     }
@@ -110,7 +110,7 @@ const DecryptedContentView = (props: DecryptedContentViewProps) => {
     if (content.type === "text") {
         return (
             <TextArea
-                label={"Plaintext"}
+                label={"復号された内容"}
                 value={content.value}
                 onChange={noop}
             />
@@ -137,13 +137,13 @@ const VulnerabilityReport = (props: VulnerabilityReportProps) => {
         <div className="col px-3">
             <div className="row mb-6">
                 <TextInput
-                    label={"Title"}
+                    label={"タイトル"}
                     value={props.title}
                 />
             </div>
             <div className="row mb-6">
                 <TextArea
-                    label={"Description"}
+                    label={"説明"}
                     value={props.description}
                     rows={15}
                 />
@@ -158,7 +158,7 @@ const VulnerabilityReport = (props: VulnerabilityReportProps) => {
                 {file != null
                     ? <Button
                         onClick={() => file && downloadFile(file)}
-                        text={"Click to download attached file"}
+                        text={"添付ファイルをダウンロード"}
                     />
                     : null
                 }

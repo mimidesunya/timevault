@@ -1,5 +1,5 @@
-import {roundTime} from "tlock-js"
-import {MAINNET_CHAIN_INFO} from "tlock-js/drand/defaults"
+import { roundTime } from "tlock-js"
+import { MAINNET_CHAIN_INFO } from "tlock-js/drand/defaults"
 
 export function errorMessage(err: unknown): string {
     if (err instanceof Error) {
@@ -9,7 +9,7 @@ export function errorMessage(err: unknown): string {
         return err
     }
 
-    return "Unknown error"
+    return "不明なエラーが発生しました"
 }
 
 // This takes an error thrown from decryption
@@ -20,10 +20,10 @@ export function localisedDecryptionMessageOrDefault(err: unknown): string {
     const tooEarlyToDecryptErrorMessage = "It's too early to decrypt the ciphertext - decryptable at round "
 
     if (!message.startsWith(tooEarlyToDecryptErrorMessage)) {
-        return "There was an error during decryption! Is your ciphertext valid?"
+        return "復号中にエラーが発生しました。暗号文が正しいか確認してください。"
     }
 
     const roundNumber = Number.parseInt(message.split(tooEarlyToDecryptErrorMessage)[1])
     const timeToDecryption = new Date(roundTime(MAINNET_CHAIN_INFO, roundNumber))
-    return `This message cannot be decrypted until ${timeToDecryption.toLocaleDateString()} at ${timeToDecryption.toLocaleTimeString()}`
+    return `この暗号文はまだ復号できません。 解除予定時刻: ${timeToDecryption.toLocaleDateString()} ${timeToDecryption.toLocaleTimeString()}`
 }

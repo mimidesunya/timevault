@@ -1,11 +1,12 @@
-import React, {useEffect, useMemo, useState} from "preact/compat"
-import {Fragment, h} from "preact"
-import {CompletedWebForm, encryptedOrDecryptedFormData} from "../actions/encrypt-text"
-import {createDebouncer} from "../actions/debounce"
-import {TextArea} from "../components/TextArea"
-import {TimeInput} from "../components/TimeInput"
-import {errorMessage} from "../actions/errors"
-import {Network} from "../App"
+import React, { useEffect, useMemo, useState } from "preact/compat"
+import { Fragment, h } from "preact"
+import { CompletedWebForm, encryptedOrDecryptedFormData } from "../actions/encrypt-text"
+import { createDebouncer } from "../actions/debounce"
+import { TextArea } from "../components/TextArea"
+import { TimeInput } from "../components/TimeInput"
+import { FileInput } from "../components/FileInput"
+import { errorMessage } from "../actions/errors"
+import { Network } from "../App"
 
 type TextEncryptProps = {
     network: Network
@@ -22,7 +23,7 @@ const TextEncrypt = (props: TextEncryptProps) => {
             return
         }
 
-        debounced(() => encryptedOrDecryptedFormData(props.network, {plaintext, ciphertext, decryptionTime}))
+        debounced(() => encryptedOrDecryptedFormData(props.network, { plaintext, ciphertext, decryptionTime }))
             .then(output => {
                 setCiphertext(output.ciphertext ?? "")
                 setDecryptionTime(output.decryptionTime)
@@ -33,6 +34,19 @@ const TextEncrypt = (props: TextEncryptProps) => {
             })
     }, [plaintext, decryptionTime, props.network])
 
+    const onFileChange = (files: FileList) => {
+        if (files.length === 0) return
+        const file = files[0]
+        const reader = new FileReader()
+        reader.onload = (e) => {
+            const text = e.target?.result
+            if (typeof text === "string") {
+                setPlaintext(text)
+            }
+        }
+        reader.readAsText(file)
+    }
+
     return (
         <Fragment>
             <div className="row p-0" id="errors">
@@ -41,7 +55,7 @@ const TextEncrypt = (props: TextEncryptProps) => {
             <div className={"col-sm-6 p-3"}>
                 <div className="row mb-6">
                     <TimeInput
-                        label={"Decryption time"}
+                        label={"解除予定日時"}
                         value={decryptionTime}
                         onChange={setDecryptionTime}
                     />
@@ -51,8 +65,14 @@ const TextEncrypt = (props: TextEncryptProps) => {
             <div class="row light-bg p-0">
                 <div class="col-12 col-lg-6 p-3">
                     <div className="row mb-6">
+                        <div className="mb-3">
+                            <FileInput
+                                label={"ファイルから読み込み (オプション)"}
+                                onChange={onFileChange}
+                            />
+                        </div>
                         <TextArea
-                            label={"Plaintext"}
+                            label={"内容 (暗号化したいテキスト)"}
                             value={plaintext}
                             onChange={setPlaintext}
                         />
@@ -61,7 +81,7 @@ const TextEncrypt = (props: TextEncryptProps) => {
                 <div class="col-12 col-lg-6 p-3">
                     <div className="row mb-6">
                         <TextArea
-                            label={"Ciphertext"}
+                            label={"暗号文 (結果)"}
                             value={ciphertext}
                             onChange={setCiphertext}
                         />
@@ -72,4 +92,4 @@ const TextEncrypt = (props: TextEncryptProps) => {
     )
 }
 
-export {TextEncrypt}
+export { TextEncrypt }

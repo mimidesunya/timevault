@@ -1,0 +1,9 @@
+{
+    "remote_host": "31.220.40.178",
+    "remote_user": "densuke",
+    "remote_dir": "services/timelock",
+    "wsl_key_path": "/mnt/i/SSH/to-server/ed25519",
+    "registry_domain": "r.miya.be",
+    "registry_user": "admin",
+    "registry_pass": "SDo8xJ94JyoyuEf"
+}
