@@ -88,7 +88,8 @@ def main():
         "--exclude '.eslintrc.cjs'",
         "--exclude '*.log'",
         "--exclude '.DS_Store'",
-        "--exclude 'data'" # Protect data directory from being deleted by rsync
+        "--exclude 'data'", # Protect data directory from being deleted by rsync
+        "--exclude 'api/node_modules'", # API dependencies are installed via Docker build
     ]
     exclude_str = " ".join(excludes)
     
@@ -121,6 +122,15 @@ def main():
     ]
     
     run_command(f"ssh {ssh_opts} {remote} \"{' && '.join(remote_cmds)}\"")
+
+    print("\n--- 4. Set Vault Data Permissions ---")
+    # Ensure the vault data volume has correct permissions
+    # The volume is managed by Docker, so we use docker exec to set permissions
+    perm_cmds = [
+        f"cd {remote_dir}",
+        "docker compose exec -T timevault-api sh -c 'mkdir -p /data/uploads/meta && chmod -R 755 /data/uploads && chown -R node:node /data/uploads'"
+    ]
+    run_command(f"ssh {ssh_opts} {remote} \"{' && '.join(perm_cmds)}\"")
 
     print("\n--- Deployment Complete ---")
 

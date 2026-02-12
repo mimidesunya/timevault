@@ -1,4 +1,4 @@
-import {HttpCachingChain, HttpChainClient} from "tlock-js"
+import { HttpCachingChain, HttpChainClient } from "tlock-js"
 
 export function quicknet(): HttpChainClient {
     const clientOpts = {
@@ -10,5 +10,5 @@ export function quicknet(): HttpChainClient {
         }
     }
     // passing an empty httpOptions arg to strip the user agent header to stop CORS issues
-    return new HttpChainClient(new HttpCachingChain("https://drand.cloudflare.com", clientOpts), clientOpts, {})
+    return new HttpChainClient(new HttpCachingChain("https://drand.cloudflare.com/52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971", clientOpts), clientOpts, {})
 }

@@ -85,6 +85,25 @@ const TextEncrypt = (props: TextEncryptProps) => {
                             value={ciphertext}
                             onChange={setCiphertext}
                         />
+                        {ciphertext && (
+                            <div className="mt-2">
+                                <button
+                                    className="btn btn-sm btn-outline-primary"
+                                    onClick={() => {
+                                        const blob = new Blob([ciphertext], { type: "text/plain" })
+                                        const anchor = document.createElement("a")
+                                        anchor.href = URL.createObjectURL(blob)
+                                        anchor.download = "encrypted.tlock"
+                                        document.body.appendChild(anchor)
+                                        anchor.click()
+                                        document.body.removeChild(anchor)
+                                        URL.revokeObjectURL(anchor.href)
+                                    }}
+                                >
+                                    📥 暗号文をファイルとしてダウンロード
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

@@ -1,8 +1,10 @@
 import React, { useState } from "preact/compat"
 import { h } from "preact"
 import { Tab, TabView } from "./components/TabView"
-import { TextEncrypt } from "./views/TextEncrypt"
-import { MultiDecrypt } from "./views/MultiDecrypt"
+import { FileEncrypt } from "./views/FileEncrypt"
+import { FileDecrypt } from "./views/FileDecrypt"
+import { FileShare } from "./views/FileShare"
+import { VaultList } from "./components/VaultList"
 
 export type Network = "quicknet"
 
@@ -10,12 +12,19 @@ const App = () => {
     const networkURL: Network = "quicknet"
     return (
         <div>
+            {/* Main Content: Shared Files (The exciting part!) */}
+            <VaultList />
+
+            {/* Tools Area */}
             <TabView>
-                <Tab title={"作成 (Encrypt)"}>
-                    <TextEncrypt network={networkURL} />
+                <Tab title={"🔒 新しく作る / 共有する"}>
+                    <FileEncrypt network={networkURL} />
                 </Tab>
-                <Tab title={"復元 (Decrypt)"}>
-                    <MultiDecrypt network={networkURL} />
+                <Tab title={"🔓 開ける (復号)"}>
+                    <FileDecrypt network={networkURL} />
+                </Tab>
+                <Tab title={"📤 手動アップロード"}>
+                    <FileShare network={networkURL} />
                 </Tab>
             </TabView>
         </div>

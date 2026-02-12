@@ -5,3 +5,5 @@
 /dist
 /.vscode
 /.idea*
+/data
+/api/node_modules

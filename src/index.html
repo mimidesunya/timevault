@@ -1,50 +1,72 @@
 <!doctype html>
 <html lang="ja">
+
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Timevault - タイムロック暗号化</title>
+    <title>時限暗号 - みんなで楽しむ共有タイムカプセル</title>
+    <meta name="description" content="指定した時刻まで開けない、そして時間が過ぎたら消えてしまう「時限付きファイル共有」。未来のワクワクをみんなで共有しよう！">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="scss/styles.scss">
     <link rel="icon" type="image/svg+xml" href="./images/tlock-icon.svg" sizes="any">
 </head>
+
 <body>
 
-<div class="container-xxl p-lg-5">
-    <div class="row mb-5 opening-text">
-        <h1>Timevault <img src="./images/tlock-icon.svg" height="80em" alt=""/></h1>
-        <h5>Powered by <a href="https://drand.love" target="_blank">drand</a> and <a
-                href="https://github.com/drand/tlock-js" target="_blank">tlock-js</a></h5>
-        <p>
-            ソースコードは <a href="https://github.com/drand/timevault" target="_blank">Github</a> で確認できます。
-        </p>
+    <div class="container-xxl p-lg-5">
+        <div class="row mb-4 opening-text">
+            <h1>🕰️ 時限暗号</h1>
+            <h5>未来の瞬間まで、秘密を閉じ込める場所。</h5>
 
-        <p>
-            Timevault は、指定した時刻になるまで解読できない「タイムロック暗号」を作成・復元するツールです。<br>
-            暗号化も復元もすべてお使いのブラウザ内で完結し、サーバーに秘密データが送信されることはありません。
-        </p>
+            <p style="font-size: 1.1em; line-height: 2.2;">
+                時限暗号 (TimeVault) は、指定した時刻になるまで <strong>誰にも開くことができない</strong>
+                「時限式タイムカプセル」を共有できる広場です。<br>
+                ファイルを選んで時間をセットするだけで、世界最強の暗号でロックされた秘密のファイルが完成します。
+            </p>
 
-        <p><strong>使い方:</strong></p>
-        <ul>
-            <li><strong>作成 (Encrypt):</strong> 暗号化したいテキストを入力（またはファイル読み込み）し、解除したい日時を指定して「暗号化」されたテキストを生成します。</li>
-            <li><strong>復元 (Decrypt):</strong> 暗号化されたテキストを貼り付けると、指定日時を過ぎていれば内容が表示されます。</li>
-        </ul>
-        
-        <p class="text-muted small">
-            ※本サイトは drand Mainnet (quicknet) を使用しています。<br>
-            ※復元にはインターネット接続が必要です（時刻認証のため）。
-        </p>
+            <div style="background: rgba(232, 117, 109, 0.08); padding: 1.5em; border-radius: 12px; margin: 1.5em 0;">
+                <h4 style="color: #e8756d; font-weight: 700; margin-bottom: 0.8em;">🌟 時限暗号 の遊び方</h4>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 0.8em; font-size: 1.05em;">
+                        <strong>1. 📦 探す</strong><br>
+                        下のリストから気になるファイルを探しましょう。<br>
+                        「残り時間」のカウントダウンが終わるまで、誰にも中身はわかりません。
+                    </li>
+                    <li style="margin-bottom: 0.8em; font-size: 1.05em;">
+                        <strong>2. ⬇️ 確保する</strong><br>
+                        時間が来たら復号できますが、うかうかしているとファイルは<strong>消滅</strong>します。<br>
+                        気になったらすぐにダウンロードして確保しておきましょう！
+                    </li>
+                    <li style="margin-bottom: 0px; font-size: 1.05em;">
+                        <strong>3. 🎁 埋める</strong><br>
+                        あなたも何か埋めてみませんか？<br>
+                        サプライズメッセージ、未来の予想、とっておきの写真...。<br>
+                        開封される瞬間を想像しながら、時限暗号をセットしましょう。
+                    </li>
+                </ul>
+            </div>
+
+            <p class="text-muted small">
+                ※ 暗号化・復号はすべてあなたのブラウザ内で行われます。<br>
+                ※ 中身を見られるのは設定した時刻を過ぎてからです。それまでは運営者ですら中身を見ることはできません。
+            </p>
+        </div>
+
+        <div id="root"></div>
+
+        <div class="mt-5 mb-4 opening-text">
+            <h2>🔗 リンク</h2>
+            <ul>
+                <li><a href="https://drand.love/">drand 公式サイト</a> (この暗号技術の提供元)</li>
+                <li><a href="https://github.com/drand/timevault">GitHub リポジトリ</a> (ソースコード)</li>
+            </ul>
+        </div>
+
+        <script src="./index.tsx" type="module"></script>
     </div>
-
-    <div id="root"></div>
-    <div class="mt-5">
-        <h2>リンク</h2>
-        <ul>
-            <li><a href="https://drand.love/">drand 公式サイト</a></li>
-            <li><a href="https://github.com/drand/tlock-js">tlock-js (ライブラリ)</a></li>
-        </ul>
-    </div>
-
-    <script src="./index.tsx" type="module"></script>
-</div>
 </body>
+
 </html>

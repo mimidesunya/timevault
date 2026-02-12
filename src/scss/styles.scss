@@ -1,43 +1,219 @@
 @import "~bootstrap/scss/bootstrap";
 
-$primary-color: rgba(0, 70, 249, 255);
-$secondary-color: rgb(37, 150, 190);
-$background-color: rgb(7, 9, 21);
-$background-lighter: rgba(21, 23, 34, 0.99);
-$input-color: rgba(46, 48, 59, 255);
-$highlight-color: rgba(255, 255, 255, 255);
-$warning-color: rgba(255, 0, 0, 255);
+// ========================================
+// Friendly & Warm Color Palette
+// ========================================
+$primary-color: #e8756d; // Warm coral
+$primary-hover: #d4605a; // Deeper coral on hover
+$secondary-color: #7eb8c9; // Soft teal
+$secondary-hover: #6da8b9;
 
-html, body {
-  font-family: arial, serif;
-  background-color: $background-color;
-  color: $highlight-color;
+$bg-color: #faf7f5; // Warm off-white
+$bg-card: #ffffff;
+$bg-section: #fff8f6; // Very light peach
+$bg-tab: #f0e8e5; // Soft warm gray
+
+$text-primary: #3a302b; // Warm dark brown (higher contrast)
+$text-secondary: #5c504a; // Readable brown (WCAG AA)
+$text-muted: #8a7e78;
+
+$input-bg: #f5f0ee;
+$input-border: #e0d5d0;
+$input-text: #4a3f3a;
+
+$success-color: #6bb87a;
+$success-bg: #f0faf2;
+$success-border: #c8e8cd;
+
+$warning-color: #d9534f;
+$warning-bg: #fdf0f0;
+$warning-border: #f0c8c8;
+
+$locked-color: #7eb8c9;
+$unlocked-color: #c9a0d8;
+
+$shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.06);
+$shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.1);
+$border-radius-base: 16px;
+$border-radius-sm: 10px;
+
+// ========================================
+// Base Styles
+// ========================================
+html,
+body {
+  font-family: "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+  background-color: $bg-color;
+  color: $text-primary;
+  line-height: 2.0;
+  font-size: 17px;
 }
 
 a {
+  color: $primary-color;
   text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $primary-hover;
+    text-decoration: underline;
+  }
 }
 
-input, textarea {
-  background-color: $input-color !important;
-  color: $highlight-color !important;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $text-primary;
+  font-weight: 700;
+  letter-spacing: 0.01em;
 }
 
+h1 {
+  font-size: 1.8em;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.25em;
+}
+
+p {
+  color: $text-secondary;
+}
+
+strong {
+  color: $text-primary;
+}
+
+input,
+textarea {
+  background-color: $input-bg !important;
+  color: $input-text !important;
+  border: 1.5px solid $input-border !important;
+  border-radius: $border-radius-sm !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  padding: 0.7em 1em !important;
+  font-size: 1em !important;
+
+  &:focus {
+    border-color: $primary-color !important;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.15) !important;
+    outline: none !important;
+  }
+}
+
+.form-control {
+  font-size: 1em;
+}
+
+.form-label {
+  font-weight: 600;
+  color: $text-primary;
+  font-size: 1em;
+  margin-bottom: 0.5em;
+}
+
+// ========================================
+// Layout
+// ========================================
 .light-bg {
-  background-color: $background-lighter;
+  background-color: $bg-section;
 }
 
+.row,
+.container-xxl {
+  --bs-gutter-x: 0em;
+}
+
+.opening-text {
+  padding: 1.8em;
+  background: $bg-card;
+  border-radius: $border-radius-base;
+  box-shadow: $shadow-soft;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+
+  h1 {
+    color: $primary-color;
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+  }
+
+  h5 {
+    color: $text-secondary;
+    font-weight: 400;
+    font-size: 0.95em;
+    margin-bottom: 1em;
+  }
+
+  ul {
+    padding-left: 1.2em;
+    margin-bottom: 1em;
+
+    li {
+      margin-bottom: 0.6em;
+      color: $text-secondary;
+      line-height: 1.7;
+    }
+  }
+
+  .text-muted {
+    color: $text-muted !important;
+    font-size: 0.85em;
+  }
+}
+
+// ========================================
+// Tab Navigation
+// ========================================
 .tab-header {
-  margin: 1em 0 0 0.5em;
-  padding: 0.5em;
-  background-color: $secondary-color;
+  margin: 0 0.25em;
+  padding: 0.7em 0.5em;
+  background-color: $bg-tab;
+  color: $text-secondary;
   cursor: pointer !important;
   text-align: center;
-  border-radius: 0 1em 0 0;
+  border-radius: $border-radius-sm $border-radius-sm 0 0;
+  transition: all 0.25s ease;
+  font-weight: 600;
+  font-size: 0.95em;
+  border: 1px solid transparent;
+  border-bottom: none;
+  position: relative;
+
+  &:hover {
+    background-color: darken($bg-tab, 3%);
+    color: $text-primary;
+    transform: translateY(-2px);
+  }
+
+  &:first-child {
+    margin-left: 0;
+  }
 }
 
 .tab-header-selected {
-  background-color: $primary-color;
+  background-color: $bg-card;
+  color: $primary-color;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: $primary-color;
+    border-radius: 3px 3px 0 0;
+  }
 }
 
 #errors {
@@ -47,12 +223,368 @@ input, textarea {
   text-align: center;
 }
 
-// this is default in bootstrap and looks bizarre particularly on mobile
-// the right edge just ends up with some random padding o.O
-.row, .container-xxl {
-  --bs-gutter-x: 0em;
+// ========================================
+// Buttons
+// ========================================
+.btn-primary {
+  background-color: $primary-color;
+  border-color: $primary-color;
+  color: #fff;
+  font-weight: 600;
+  border-radius: $border-radius-sm;
+  letter-spacing: 0.02em;
+  transition: all 0.25s ease;
+
+  &:hover,
+  &:focus {
+    background-color: $primary-hover;
+    border-color: $primary-hover;
+    box-shadow: 0 4px 14px rgba($primary-color, 0.3);
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    transform: none;
+    box-shadow: none;
+  }
 }
 
-.opening-text {
-  padding: 1em;
+.btn-outline-primary {
+  color: $primary-color;
+  border-color: $primary-color;
+  border-radius: $border-radius-sm;
+
+  &:hover {
+    background-color: $primary-color;
+    color: #fff;
+  }
+}
+
+.btn-outline-light {
+  color: $text-secondary;
+  border-color: $input-border;
+  border-radius: $border-radius-sm;
+
+  &:hover {
+    background-color: $bg-tab;
+    color: $text-primary;
+    border-color: darken($input-border, 10%);
+  }
+}
+
+// ========================================
+// Vault / File Share Styles
+// ========================================
+.vault-upload-section {
+  padding: 2em;
+  border-radius: $border-radius-base;
+  background: $bg-card;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: $shadow-soft;
+}
+
+.vault-section-title {
+  font-size: 1.3em;
+  margin-bottom: 0.6em;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  color: $text-primary;
+}
+
+.vault-icon {
+  font-size: 1.1em;
+}
+
+.vault-description {
+  color: $text-secondary;
+  font-size: 1em;
+  margin-bottom: 1.5em;
+  line-height: 2.0;
+}
+
+.vault-file-info {
+  margin-top: 0.5em;
+  color: $success-color;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.vault-upload-btn {
+  padding: 0.8em 2.5em;
+  font-size: 1.1em;
+}
+
+.vault-error {
+  color: $warning-color;
+  background: $warning-bg;
+  border: 1px solid $warning-border;
+  border-radius: $border-radius-sm;
+  padding: 1em 1.2em;
+  margin-bottom: 1em;
+  font-size: 1em;
+}
+
+.vault-success {
+  margin-top: 1.5em;
+  padding: 1.2em;
+  background: $success-bg;
+  border: 1px solid $success-border;
+  border-radius: $border-radius-base;
+  animation: vault-fade-in 0.3s ease;
+
+  h5 {
+    color: darken($success-color, 10%);
+    margin-bottom: 0.5em;
+    font-size: 1.15em;
+  }
+
+  p {
+    color: $text-secondary;
+    font-size: 1em;
+  }
+}
+
+.vault-share-url {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  flex-wrap: wrap;
+
+  code {
+    background: lighten($bg-tab, 2%);
+    padding: 0.5em 0.8em;
+    border-radius: 8px;
+    font-size: 0.95em;
+    word-break: break-all;
+    color: $primary-color;
+    border: 1px solid $input-border;
+  }
+}
+
+// ========================================
+// Vault List
+// ========================================
+.vault-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.vault-item {
+  background: $bg-card;
+  border-radius: $border-radius-base;
+  padding: 1.5em;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  /* Stronger initial shadow */
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    border-color: rgba($primary-color, 0.3);
+  }
+}
+
+.vault-item-locked {
+  border-top: 6px solid $locked-color;
+  background: linear-gradient(to bottom right, #ffffff, #fdfbf7);
+}
+
+.vault-item-unlocked {
+  border-top: 6px solid $text-muted;
+  opacity: 0.6;
+  filter: grayscale(0.8);
+  background: #f4f4f4;
+}
+
+.vault-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8em;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+
+.vault-item-time {
+  font-size: 1.25em;
+  /* Much larger */
+  font-weight: 700;
+  color: $primary-color;
+  letter-spacing: 0.02em;
+  text-align: right;
+
+  /* Monospace digits for stable countdown */
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}
+
+.vault-item-time-label {
+  font-size: 0.7em;
+  font-weight: normal;
+  color: $text-secondary;
+  display: block;
+  margin-bottom: -0.2em;
+}
+
+.vault-badge {
+  display: inline-block;
+  padding: 0.35em 1em;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 600;
+}
+
+.vault-badge-locked {
+  background: rgba($locked-color, 0.12);
+  color: darken($locked-color, 15%);
+  border: 1px solid rgba($locked-color, 0.25);
+  animation: vault-pulse 2.5s ease-in-out infinite;
+}
+
+.vault-badge-unlocked {
+  background: rgba($unlocked-color, 0.12);
+  color: darken($unlocked-color, 15%);
+  border: 1px solid rgba($unlocked-color, 0.25);
+}
+
+.vault-item-body {
+  margin-bottom: 0.8em;
+}
+
+.vault-item-name {
+  font-size: 1.4em;
+  /* Larger title */
+  font-weight: 700;
+  color: $text-primary;
+  display: block;
+  margin-bottom: 0.2em;
+}
+
+.vault-item-size {
+  color: $text-secondary;
+  font-size: 0.8em;
+  font-weight: normal;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.2em 0.6em;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-left: 0.5em;
+}
+
+.vault-item-message {
+  margin-top: 0.4em;
+  font-size: 1em;
+  color: $text-secondary;
+  font-style: italic;
+}
+
+.vault-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  flex-wrap: wrap;
+}
+
+.vault-expired-text {
+  color: $text-muted;
+  font-size: 0.95em;
+  font-style: italic;
+}
+
+// ========================================
+// Processing Overlay
+// ========================================
+.vault-processing-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: $border-radius-base;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: vault-fade-in 0.2s ease;
+}
+
+.vault-processing-content {
+  text-align: center;
+  padding: 2em;
+
+  h4 {
+    color: $text-primary;
+    margin-bottom: 0.5em;
+    font-size: 1.2em;
+  }
+
+  p {
+    color: $text-secondary;
+    font-size: 0.95em;
+    margin-bottom: 0;
+    line-height: 1.8;
+  }
+}
+
+// ========================================
+.spinner-border {
+  color: $primary-color;
+}
+
+// ========================================
+// Animations
+// ========================================
+@keyframes vault-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vault-pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba($locked-color, 0.25);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba($locked-color, 0);
+  }
+}
+
+// ========================================
+// Responsive tweaks
+// ========================================
+@media (max-width: 576px) {
+
+  html,
+  body {
+    font-size: 16px; // Never smaller than 16px for accessibility
+  }
+
+  .tab-header {
+    font-size: 0.9em;
+    padding: 0.6em 0.3em;
+  }
+
+  .vault-upload-section {
+    padding: 1.2em;
+  }
+
+  .vault-item {
+    padding: 1em;
+  }
 }
