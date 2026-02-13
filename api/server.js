@@ -84,7 +84,7 @@ fs.mkdirSync(DATA_DIR, { recursive: true });
 fs.mkdirSync(META_DIR, { recursive: true });
 
 // Max file size: 50MB
-const MAX_FILE_SIZE = 50 * 1024 * 1024;
+const MAX_FILE_SIZE = 100 * 1024 * 1024;
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({

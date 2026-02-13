@@ -25,7 +25,13 @@ export const FileShare = (props: FileShareProps) => {
 
     const onFileChange = useCallback((files: FileList) => {
         if (files.length > 0) {
-            setFile(files[0])
+            const f = files[0]
+            if (f.size > 100 * 1024 * 1024) {
+                setError("ファイルサイズが100MBを超えています。100MB以下のファイルを選択してください。")
+                setFile(null)
+                return
+            }
+            setFile(f)
             setError("")
             setUploadResult(null)
         }
