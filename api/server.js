@@ -3,6 +3,8 @@ const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const fs = require('fs');
+const { exec } = require('child_process');
+const cors = require('cors');
 
 // drand quicknet chain parameters
 const QUICKNET_GENESIS_TIME = 1692803367; // Unix timestamp (seconds)
@@ -13,21 +15,6 @@ const AGE_ARMOR_FOOTER = '-----END AGE ENCRYPTED FILE-----';
 
 /**
  * Parse a tlock ciphertext and extract the round number from the "-> tlock" stanza.
- *
- * tlock-js outputs AGE armored files:
- *   -----BEGIN AGE ENCRYPTED FILE-----
- *   <base64 of the entire AGE payload including headers>
- *   -----END AGE ENCRYPTED FILE-----
- *
- * The AGE payload (after base64 decoding) contains:
- *   age-encryption.org/v1
- *   -> tlock <roundNumber> <chainHash>
- *   <base64 body>
- *   --- <mac>
- *   <encrypted data>
- *
- * @param {string} fileContent - The .tlock file content
- * @returns {number|null} The round number, or null if not found
  */
 function extractRoundNumber(fileContent) {
     let searchContent = fileContent;
@@ -98,15 +85,54 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-    storage,
+    storage: storage,
     limits: { fileSize: MAX_FILE_SIZE }
 });
 
+app.use(cors());
 app.use(express.json());
 
-// Health check
-app.get('/api/vault/health', (req, res) => {
-    res.json({ status: 'ok' });
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+    const checks = {
+        uptime: {
+            status: 'ok',
+            uptime_seconds: process.uptime()
+        }
+    };
+
+    // Check disk space for DATA_DIR
+    exec(`df -B1 ${DATA_DIR}`, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`exec error: ${error}`);
+            checks.disk_space = { status: 'error', error: error.message };
+        } else {
+            // Output format: Filesystem 1B-blocks Used Available Use% Mounted on
+            // Skip header line
+            const lines = stdout.trim().split('\n');
+            if (lines.length >= 2) {
+                const parts = lines[lines.length - 1].split(/\s+/);
+                if (parts.length >= 4) {
+                    const total = parseInt(parts[1], 10);
+                    const available = parseInt(parts[3], 10);
+                    const freeGb = (available / (1024 * 1024 * 1024)).toFixed(2);
+                    const freePercent = ((available / total) * 100).toFixed(1) + '%';
+                    
+                    checks.disk_space = {
+                        status: available > 1024 * 1024 * 100 ? 'ok' : 'warning', // Warn if < 100MB
+                        free_gb: parseFloat(freeGb),
+                        free_percent: freePercent
+                    };
+                }
+            }
+        }
+
+        res.json({
+            status: 'ok',
+            timestamp: Math.floor(Date.now() / 1000),
+            checks: checks
+        });
+    });
 });
 
 /**

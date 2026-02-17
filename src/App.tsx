@@ -4,6 +4,7 @@ import { Tab, TabView } from "./components/TabView"
 import { FileEncrypt } from "./views/FileEncrypt"
 import { FileDecrypt } from "./views/FileDecrypt"
 import { FileShare } from "./views/FileShare"
+import { HealthView } from "./views/HealthView"
 import { VaultList } from "./components/VaultList"
 
 export type Network = "quicknet"
@@ -25,6 +26,9 @@ const App = () => {
                 </Tab>
                 <Tab title={"📤 手動アップロード"}>
                     <FileShare network={networkURL} />
+                </Tab>
+                <Tab title={"🏥 システム状態"}>
+                    <HealthView />
                 </Tab>
             </TabView>
         </div>

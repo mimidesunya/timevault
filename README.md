@@ -1,31 +1,44 @@
-# Timevault 
+# ⏳ Timevault (タイムボルト)
 
-A deadman's switch to encrypt your vulnerability reports or other compromising data to be decryptable at a set time in the future.  Uses [tlock-js](https://github.com/drand/tlock-js) and is powered by [drand](https://drand.love).
-Messages encrypted with timevault are also compatible with the [go tlock library](https://github.com/drand/tlock).
+未来の指定した時間まで「絶対に開けられない」タイムカプセルを作成するツールです。
+Drand (Distributed Randomness Beacon) の技術を利用し、サーバーに依存せずに暗号化を行います。
 
-Automagically deploys to https://timevault.drand.love
+## ✨ 主な機能
 
-## Prerequisites
-- node 16+
-- npm 8+
+1.  **時限暗号化**: 復号できる日時を指定してファイルを暗号化します。指定した時刻になるまで、数学的に復号が不可能です。
+2.  **共有リンク生成**: 暗号化したファイルをサーバーにアップロードし、共有用URLを発行します。
+3.  **セキュアなダウンロード**: 指定時刻を過ぎるまで、サーバーからのダウンロードも制限されます。
+4.  **大容量対応**: 最大100MBまでのファイルの暗号化と共有に対応しています。
 
-## Quickstart
-- run `npm install` to install all the dependencies
-- run `npm start` to run an HTTP server locally serving the UI for encrypting/decrypting your important material
+## 🚀 使い方
 
-## Network
+### 開発環境のセットアップ
 
-This is currently running against the drand mainnet. 
-Ciphertexts from prior to 22st of March 2023 were using testnet, and as such you may need to replace instances of `mainnetClient()` with `testnetClient()` in the code for it to decrypt them.
+必要な依存関係をインストールし、開発サーバーを起動します。
 
-## Deployment
-The app is currently deployed on cloudflare, though running the `build:githubpages` npm script to build it. Github Actions did not allow setting some useful security headers out-of-the-box.
+```bash
+npm install
+npm start
+```
+ブラウザで `http://localhost:1234` にアクセスして確認できます。
 
-## License
+### 本番環境へのデプロイ
 
-This project is licensed using the [Permissive License Stack](https://protocol.ai/blog/announcing-the-permissive-license-stack/) which means that all contributions are available under the most permissive commonly-used licenses, and dependent projects can pick the license that best suits them.
+Docker Compose を使用してデプロイします。
+以下のコマンドで、リモートサーバーへのデプロイとコンテナの起動が行われます。
 
-Therefore, the project is dual-licensed under Apache 2.0 and MIT terms:
+```bash
+./deploy.sh
+```
+※ `deploy.json` にデプロイ先の設定が必要です。
 
-- Apache License, Version 2.0, ([LICENSE-APACHE](https://github.com/drand/timevault/blob/master/LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
-- MIT license ([LICENSE-MIT](https://github.com/drand/timevault/blob/master/LICENSE-MIT) or http://opensource.org/licenses/MIT)
+## 🛠 技術スタック
+
+-   **Frontend**: Preact, TypeScript, tlock-js
+-   **Backend**: Node.js (Express), Multer
+-   **Infrastructure**: Docker, Nginx
+-   **Time Release Cryptography**: Drand (Quicknet)
+
+## 📜 ライセンス
+
+このプロジェクトは [Apache 2.0](LICENSE-APACHE) および [MIT](LICENSE-MIT) のデュアルライセンスです。
