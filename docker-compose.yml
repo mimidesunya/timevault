@@ -2,6 +2,7 @@ version: '3'
 services:
   timelock-web:
     build: .
+    restart: unless-stopped
     ports:
       - "8404:80"
     depends_on:
@@ -11,6 +12,7 @@ services:
 
   timevault-api:
     build: ./api
+    restart: unless-stopped
     volumes:
       - vault-data:/data/uploads
     environment:
