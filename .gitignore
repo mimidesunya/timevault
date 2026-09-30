@@ -7,3 +7,5 @@
 /.idea*
 /data
 /api/node_modules
+# デプロイ設定（レジストリの認証情報を含む）
+/deploy.json
