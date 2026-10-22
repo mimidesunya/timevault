@@ -4,7 +4,10 @@ services:
     build: .
     restart: unless-stopped
     ports:
-      - "8404:80"
+      # Traefik（host.docker.internal＝172.17.0.1）とサーバー自身からだけ受ける。
+      # 0.0.0.0 だと Traefik を通らずに外から直接届く（2026-10-22）
+      - "127.0.0.1:8404:80"
+      - "172.17.0.1:8404:80"
     depends_on:
       - timevault-api
     volumes:
