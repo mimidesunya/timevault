@@ -7,5 +7,8 @@
 /.idea*
 /data
 /api/node_modules
+# AIエージェント用ローカルガイド（git管理外）
+AGENTS.md
+CLAUDE.md
 # デプロイ設定（レジストリの認証情報を含む）
 /deploy.json
